@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laws of Surveys</title>
+  <meta name="description" content="A reference of survey principles grounded in behavioural psychology and cognitive bias mitigation — for human researchers and AI systems alike." />
+  <meta name="keywords" content="survey design, cognitive bias, acquiescence bias, social desirability, framing effect, user research, unmoderated surveys, behavioural psychology" />
+  <meta name="author" content="Contributed to by Josh & Claude" />
+
+  <!-- Structured data for AI parsing -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    "name": "Laws of Surveys",
+    "description": "Survey principles grounded in behavioural psychology and cognitive bias mitigation",
+    "hasDefinedTerm": [
+      {
+        "@type": "DefinedTerm",
+        "name": "Acquiescence Bias",
+        "termCode": "acquiescence-bias",
+        "inDefinedTermSet": "response-biases",
+        "description": "Respondents tend to agree with whatever statement is put in front of them, regardless of content.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Use balanced agree/disagree scales; include reverse-coded items; avoid exclusively positive-framed statements." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Social Desirability Bias",
+        "termCode": "social-desirability-bias",
+        "inDefinedTermSet": "response-biases",
+        "description": "Respondents answer as the person they want to be, not the person they are — particularly on sensitive or evaluative topics.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Assure anonymity explicitly; use third-person framing; prefer open numeric fields over predefined ranges." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Satisficing",
+        "termCode": "satisficing",
+        "inDefinedTermSet": "response-biases",
+        "description": "When cognitive cost rises, respondents select the first 'good enough' answer rather than the most accurate one.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Keep surveys short; front-load highest-priority questions; vary formats; show progress indicators." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Extreme & Central Tendency Bias",
+        "termCode": "extreme-central-tendency",
+        "inDefinedTermSet": "response-biases",
+        "description": "Some respondents systematically avoid extremes; others avoid the middle — independent of true attitude.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Use forced-choice or ranking tasks for critical questions; validate with open follow-ups; be cautious with cross-cultural Likert comparisons." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Framing Effect",
+        "termCode": "framing-effect",
+        "inDefinedTermSet": "question-design",
+        "description": "Logically equivalent questions produce different responses depending on positive or negative framing.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Test questions with both frames; use neutral descriptive language; avoid evaluative adjectives in question stems." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Leading Questions",
+        "termCode": "leading-questions",
+        "inDefinedTermSet": "question-design",
+        "description": "Wording that implies a correct or expected answer primes respondents toward it before they've formed a view.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Use neutral openers ('How would you describe…'); test for implied assumptions; have someone unfamiliar with the hypothesis review all questions." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Hypothetical Bias",
+        "termCode": "hypothetical-bias",
+        "inDefinedTermSet": "question-design",
+        "description": "What people say they would do and what they actually do are different data sets. Stated preference systematically overstates positive intent.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Anchor to past behaviour ('When did you last…'); use behavioural proxies; treat hypothetical data as directional, not predictive." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Double-Barrelled Questions",
+        "termCode": "double-barrelled",
+        "inDefinedTermSet": "question-design",
+        "description": "Questions asking about two things simultaneously produce uninterpretable answers — agreement may only apply to one half.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Split compound questions; read each question aloud and count how many distinct things it asks; one question, one thing." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Question Order Effect",
+        "termCode": "question-order-effect",
+        "inDefinedTermSet": "order-context-effects",
+        "description": "Earlier questions rewrite the cognitive context for later ones. Asking overall satisfaction before specific features contaminates both readings.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Ask general before specific; randomise order where priming is a concern; separate attitudinal and behavioural questions." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Anchoring Effect",
+        "termCode": "anchoring-effect",
+        "inDefinedTermSet": "order-context-effects",
+        "description": "The first number seen becomes the implicit floor or ceiling for every number that follows. Scale endpoints shape what responses feel 'reasonable'.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Choose scale endpoints from the actual expected distribution; avoid dramatic extremes; pilot to check for anchor effects." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Response Option Order Effect",
+        "termCode": "response-option-order",
+        "inDefinedTermSet": "order-context-effects",
+        "description": "In visual surveys, the first option benefits from primacy; in long lists, the last benefits from recency. Position influences selection independent of meaning.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Randomise response options where meaningful; test both ascending and descending scales; maintain consistent direction within a survey." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Telescoping Effect",
+        "termCode": "telescoping-effect",
+        "inDefinedTermSet": "cognitive-memory-effects",
+        "description": "Memory compresses time. Recent events feel older than they are; vivid events feel more recent. Any recall-based question is affected.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Use bounded recall windows ('in the last 7 days', not 'recently'); provide temporal landmarks; avoid long recall periods for non-salient behaviours." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Demand Characteristics",
+        "termCode": "demand-characteristics",
+        "inDefinedTermSet": "cognitive-memory-effects",
+        "description": "Respondents are detectives. When they can infer the study's hypothesis, they adjust their answers to confirm or subvert it.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Obscure the specific hypothesis where ethical; use decoy questions; avoid survey titles or intros that signal the desired outcome." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Cognitive Load & Survey Fatigue",
+        "termCode": "cognitive-load-fatigue",
+        "inDefinedTermSet": "cognitive-memory-effects",
+        "description": "Every question borrows from a finite attention budget. Response quality degrades over length. Matrix grids are especially expensive.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "high" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Apply Miller's Law (7±2 chunks max); avoid matrix questions where possible; use branching to remove irrelevant questions; show progress." }]
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Peak-End Rule",
+        "termCode": "peak-end-rule",
+        "inDefinedTermSet": "cognitive-memory-effects",
+        "description": "People remember the most intense moment and the final moment — not a faithful average. Post-experience surveys capture memory of experience, not experience itself.",
+        "additionalProperty": [{ "@type": "PropertyValue", "name": "severity", "value": "medium" }, { "@type": "PropertyValue", "name": "mitigation", "value": "Be explicit about the evaluation window; consider in-moment surveys for experience fidelity; design the survey's ending deliberately — it shapes the whole recall." }]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Privacy-first analytics: no cookies, no personal data -->
+  <script defer data-domain="lawsofsurveys.com" src="https://plausible.io/js/script.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Tokens ─────────────────────────────────────────────── */
+    :root {
+      --bg:           #0D1B2A;
+      --surface:      #122030;
+      --surface-hover:#162638;
+      --border:       #1C2E42;
+      --border-active:#2A4260;
+      --text-primary: #EDE7D9;
+      --text-secondary:#7A90A8;
+      --text-muted:   #435768;
+      --amber:        #F0A500;
+      --amber-dim:    rgba(240, 165, 0, 0.12);
+      --teal:         #3ABFB1;
+      --teal-dim:     rgba(58, 191, 177, 0.10);
+      --violet:       #8B8FF5;
+      --violet-dim:   rgba(139, 143, 245, 0.10);
+      --red-dim:      rgba(240, 80, 80, 0.10);
+      --severity-high:  #F0A500;
+      --severity-med:   #7A90A8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Utilities ──────────────────────────────────────────── */
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── Header / Hero ─────────────────────────────────────── */
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 2rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.25rem;
+    }
+
+    .site-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+    }
+
+    .site-title em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .site-description {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .meta-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.65rem;
+      border-radius: 2px;
+    }
+
+    .count-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    /* ─── Filter bar ─────────────────────────────────────────── */
+    .filter-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(13, 27, 42, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+
+    .filter-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-inner::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-secondary);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.9rem 1.1rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .filter-btn:hover { color: var(--text-primary); }
+
+    .filter-btn.active {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    /* ─── Main grid ──────────────────────────────────────────── */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .category-section {
+      padding-top: 3.5rem;
+    }
+
+    .category-section[data-hidden="true"] { display: none; }
+
+    .category-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .category-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .category-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .category-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    /* ─── Principle card ─────────────────────────────────────── */
+    .principle-card {
+      background: var(--surface);
+      padding: 1.75rem;
+      position: relative;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .principle-card[data-severity="high"] {
+      border-left-color: var(--amber);
+    }
+
+    .principle-card[data-severity="medium"] {
+      border-left-color: var(--border-active);
+    }
+
+    .principle-card:hover { background: var(--surface-hover); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .principle-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .severity-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.45rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .severity-badge.high {
+      color: var(--amber);
+      background: var(--amber-dim);
+    }
+
+    .severity-badge.medium {
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .principle-maxim {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .principle-body {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+    }
+
+    /* Mitigation toggle */
+    .mitigation-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--teal);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 0.3rem 0.65rem;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .mitigation-toggle:hover {
+      background: var(--teal-dim);
+      border-color: var(--teal);
+    }
+
+    .mitigation-toggle[aria-expanded="true"] {
+      background: var(--teal-dim);
+      border-color: var(--teal);
+    }
+
+    .toggle-icon {
+      display: inline-block;
+      transition: transform 0.2s;
+      font-style: normal;
+    }
+
+    .mitigation-toggle[aria-expanded="true"] .toggle-icon {
+      transform: rotate(45deg);
+    }
+
+    .mitigation-panel {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.9rem 1rem;
+      background: var(--teal-dim);
+      border-left: 2px solid var(--teal);
+      border-radius: 0 2px 2px 0;
+    }
+
+    .mitigation-panel.open { display: block; }
+
+    .mitigation-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.45rem;
+    }
+
+    .mitigation-text {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .footer-intro {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.65;
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .footer-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.12s;
+    }
+
+    .footer-link:hover { color: var(--teal); }
+
+    .footer-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    /* References */
+    .references-section {
+      border-top: 1px solid var(--border);
+      padding-top: 2.5rem;
+    }
+
+    .references-heading {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .references-note {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      margin-bottom: 2.25rem;
+    }
+
+    .references-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .ref-group-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .ref-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .ref-item { border-left: 2px solid var(--border); padding-left: 1rem; transition: border-color 0.15s; }
+    .ref-item:hover { border-left-color: var(--amber); }
+
+    .ref-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      text-decoration: none;
+    }
+
+    .ref-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: color 0.12s;
+    }
+
+    .ref-item:hover .ref-title { color: var(--amber); }
+
+    .ref-authors {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .ref-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-top: 0.3rem;
+    }
+
+    .footer-attribution {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      margin-top: 1.5rem;
+    }
+
+    .footer-built-by,
+    .footer-privacy {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .attribution-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.12s, border-color 0.12s;
+    }
+
+    .attribution-link:hover {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    @media (max-width: 680px) {
+      .footer-attribution { flex-direction: column; align-items: flex-start; }
+    }
+    .principle-card[data-filtered="true"] { display: none; }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .site-header { padding: 2.5rem 1.25rem 2rem; }
+      .filter-bar { padding: 0 1.25rem; }
+      .main-content { padding: 0 1.25rem 4rem; }
+      .site-footer { padding: 2rem 1.25rem 3rem; }
+      .footer-top { flex-direction: column; }
+      .footer-meta { align-items: flex-start; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .references-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* ─── Reduced motion ─────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .toggle-icon, .mitigation-panel, .principle-card,
+      .mitigation-toggle, .filter-btn { transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <p class="eyebrow">A reference for user researchers</p>
+    <h1 class="site-title">Laws of <em>Survey</em> Design</h1>
+    <p class="site-description">
+      Principles drawn from behavioural psychology and cognitive science that shape 
+      — and distort — responses in unmoderated surveys. Know the bias; design around it.
+    </p>
+    <div class="meta-row">
+      <span class="meta-pill">v0.1 · draft</span>
+      <span class="meta-pill">15 principles</span>
+      <span class="meta-pill">4 categories</span>
+      <span class="count-badge" id="visible-count" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <!-- ── Filter bar ─────────────────────────────────────────── -->
+  <nav class="filter-bar" aria-label="Filter by category">
+    <div class="filter-inner">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="response-biases">Response Biases</button>
+      <button class="filter-btn" data-filter="question-design">Question Design</button>
+      <button class="filter-btn" data-filter="order-context-effects">Order &amp; Context</button>
+      <button class="filter-btn" data-filter="cognitive-memory-effects">Cognitive &amp; Memory</button>
+    </div>
+  </nav>
+
+  <!-- ── Main content ───────────────────────────────────────── -->
+  <main class="main-content" id="main">
+
+    <!-- ── Category 1: Response Biases ────────────────────── -->
+    <section class="category-section" data-category="response-biases" aria-labelledby="cat-response">
+      <div class="category-header">
+        <h2 class="category-name" id="cat-response">Response Biases</h2>
+        <span class="category-code mono">01 / automatic tendencies</span>
+        <span class="category-count mono">4 principles</span>
+      </div>
+      <div class="principles-grid">
+
+        <article class="principle-card"
+          data-principle="acquiescence-bias"
+          data-category="response-biases"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Acquiescence Bias</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"Respondents tend to agree with whatever you put in front of them."</p>
+          <p class="principle-body">
+            When uncertain or disengaged, respondents default to agreement regardless of content. 
+            Rooted in <em>satisficing</em> — conserving cognitive energy by selecting the first 
+            socially acceptable answer. Research suggests 10–20% of respondents exhibit this 
+            systematically.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-acquiescence">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-acquiescence" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Use balanced scales with both positive and negative statements. Include reverse-coded 
+              items to detect satisficing patterns. Avoid exclusively positive-framed statement sets. 
+              Red herring items (contradictory pairs) can flag habitual agreers in analysis.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="social-desirability-bias"
+          data-category="response-biases"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Social Desirability Bias</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"People answer as the person they want to be, not the person they are."</p>
+          <p class="principle-body">
+            Respondents give answers they believe will be viewed favourably by others — or by 
+            the imagined researcher. Particularly affects sensitive topics: usage frequency, 
+            effort invested, attitudes on contested subjects, and any self-evaluative question.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-social-desirability">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-social-desirability" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              State anonymity explicitly and credibly. Use third-person framing: "How often do 
+              people in your role…" instead of "How often do you…". Prefer open numeric input 
+              fields over predefined ranges — respondents anchor less to implied norms. 
+              Normalise the full range: "Some people do X, others do Y — what about you?"
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="satisficing"
+          data-category="response-biases"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Satisficing</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"When cognitive cost rises, response quality falls."</p>
+          <p class="principle-body">
+            Respondents select the first 'good enough' answer rather than their most accurate one 
+            when fatigued or overloaded. The Tourangeau, Rips &amp; Rasinski cognitive model identifies 
+            satisficing as a core failure mode in survey response. It worsens over survey length, 
+            and with matrix grid questions in particular.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-satisficing">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-satisficing" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Front-load your highest-priority questions. Keep total length short — each additional 
+              question has diminishing data quality. Vary question formats to maintain engagement. 
+              Show a progress indicator. Avoid matrix questions; break them into individual items.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="extreme-central-tendency"
+          data-category="response-biases"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Extreme &amp; Central Tendency Bias</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"Some always go to the edges. Others never leave the middle."</p>
+          <p class="principle-body">
+            Cultural and individual differences cause systematic avoidance of either extreme or 
+            middle scale options — independent of true attitude. This makes cross-segment and 
+            cross-cultural Likert comparisons unreliable without calibration.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-extreme-central">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-extreme-central" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Use forced-choice or ranking tasks for decisions where central tendency would undermine 
+              the insight. Validate scale responses with open-ended follow-ups. Exercise caution 
+              when comparing Likert data across cultures or demographic groups. Consider ipsative 
+              (comparative) scales for high-stakes attitudinal measurement.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Category 2: Question Design ────────────────────── -->
+    <section class="category-section" data-category="question-design" aria-labelledby="cat-question">
+      <div class="category-header">
+        <h2 class="category-name" id="cat-question">Question Design</h2>
+        <span class="category-code mono">02 / how wording shapes answers</span>
+        <span class="category-count mono">4 principles</span>
+      </div>
+      <div class="principles-grid">
+
+        <article class="principle-card"
+          data-principle="framing-effect"
+          data-category="question-design"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Framing Effect</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"The container shapes what you think is in it."</p>
+          <p class="principle-body">
+            Logically equivalent questions produce different responses when framed positively 
+            versus negatively. "90% uptime" and "10% downtime" trigger different evaluations 
+            of identical facts. Question stems carry implicit evaluative weight that respondents 
+            absorb before they've formed a view.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-framing">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-framing" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Test your key questions with both positive and negative frames before fielding. 
+              Use neutral, descriptive language in question stems. Strip evaluative adjectives. 
+              Where both frames are legitimate, consider split-sample testing and triangulating 
+              the responses.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="leading-questions"
+          data-category="question-design"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Leading Questions</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"The question already contains the answer you'll get."</p>
+          <p class="principle-body">
+            Wording that implies a correct or expected answer primes respondents toward it before 
+            they've formed their own view. "How helpful was our support team?" assumes helpfulness. 
+            "Did you find the feature easy to use?" assumes engagement. The framing is the bias.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-leading">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-leading" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Use neutral openers: "How would you describe…" rather than "How [positive adjective] 
+              was…". Have someone unfamiliar with the study hypothesis review every question for 
+              loaded language. Reverse-test: would you be equally comfortable if the question 
+              steered the opposite direction?
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="hypothetical-bias"
+          data-category="question-design"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Hypothetical Bias</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"What people say they would do and what they do are different data sets."</p>
+          <p class="principle-body">
+            Responses to counterfactual or future-oriented questions ("Would you use this?", 
+            "Would you pay for that?") systematically overstate positive intent. Stated 
+            preference is not revealed preference. The gap is consistent and well-documented 
+            across product research, economics, and environmental valuation.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-hypothetical">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-hypothetical" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Anchor to past behaviour wherever possible: "When did you last…" rather than 
+              "Would you…". Use behavioural proxies over direct intent questions. Treat 
+              hypothetical data as directional signal, not predictive measurement. Flag clearly 
+              in reporting that stated-preference data carries this known inflation.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="double-barrelled"
+          data-category="question-design"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Double-Barrelled Questions</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"One question. One thing. Always."</p>
+          <p class="principle-body">
+            Questions that ask about two things simultaneously — "How easy and enjoyable was the 
+            experience?" — produce uninterpretable answers. A respondent who found it easy but 
+            tedious has no valid option. The data looks clean but is structurally ambiguous.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-double">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-double" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Read each question aloud and count how many distinct things it asks. If more than one: 
+              split it. Watch for conjunctions ('and', 'or') in question stems — they're a reliable 
+              double-barrel signal. This applies equally to scale items and qualitative prompts.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Category 3: Order & Context Effects ────────────── -->
+    <section class="category-section" data-category="order-context-effects" aria-labelledby="cat-order">
+      <div class="category-header">
+        <h2 class="category-name" id="cat-order">Order &amp; Context Effects</h2>
+        <span class="category-code mono">03 / sequence matters</span>
+        <span class="category-count mono">3 principles</span>
+      </div>
+      <div class="principles-grid">
+
+        <article class="principle-card"
+          data-principle="question-order-effect"
+          data-category="order-context-effects"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Question Order Effect</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"Earlier questions rewrite the cognitive context for later ones."</p>
+          <p class="principle-body">
+            Asking about overall satisfaction before specific features contaminates both readings — 
+            they are no longer independent measures. Prior questions prime cognitive frameworks 
+            that shape how subsequent questions are interpreted, not just answered.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-question-order">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-question-order" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Follow the general-to-specific rule: overall questions before specific ones. 
+              Separate attitudinal and behavioural questions. Where priming is a real concern, 
+              randomise question order and check for order effects in analysis. Never put 
+              competitor or category questions immediately before your product questions.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="anchoring-effect"
+          data-category="order-context-effects"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Anchoring Effect</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"The first number seen becomes the floor or ceiling for every number after."</p>
+          <p class="principle-body">
+            Numeric estimates are disproportionately influenced by the first value encountered. 
+            Scale endpoints define the range of what feels 'reasonable'. A scale that runs 
+            0–10 elicits different distributions than one running 1–7 for the same underlying 
+            construct — both in absolute values and in discriminative power.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-anchoring">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-anchoring" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Choose scale endpoints from the actual expected distribution of responses, not 
+              convention. Avoid starting numeric scales at dramatic extremes. Pilot specifically 
+              to check whether the range itself is influencing where responses cluster. 
+              Label scale endpoints with explicit behavioural anchors, not just numbers.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="response-option-order"
+          data-category="order-context-effects"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Response Option Order Effect</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"First and last options are not equal to the ones in between."</p>
+          <p class="principle-body">
+            In visual surveys, the first option benefits from primacy bias. In long or verbal 
+            lists, the last benefits from recency. Position systematically influences selection 
+            independent of meaning — a well-placed mediocre option will outperform a poorly-placed 
+            strong one.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-response-order">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-response-order" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Randomise response options where the order carries no inherent meaning. For ordinal 
+              scales (agree–disagree, satisfaction), maintain a consistent direction throughout the 
+              survey — switching direction mid-survey increases error. Test both ascending and 
+              descending scale directions if validity is critical.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ── Category 4: Cognitive & Memory Effects ─────────── -->
+    <section class="category-section" data-category="cognitive-memory-effects" aria-labelledby="cat-cognitive">
+      <div class="category-header">
+        <h2 class="category-name" id="cat-cognitive">Cognitive &amp; Memory Effects</h2>
+        <span class="category-code mono">04 / limits of recall</span>
+        <span class="category-count mono">4 principles</span>
+      </div>
+      <div class="principles-grid">
+
+        <article class="principle-card"
+          data-principle="cognitive-load-fatigue"
+          data-category="cognitive-memory-effects"
+          data-severity="high">
+          <div class="card-top">
+            <h3 class="principle-name">Cognitive Load &amp; Survey Fatigue</h3>
+            <span class="severity-badge high">High impact</span>
+          </div>
+          <p class="principle-maxim">"Every question borrows from a finite attention budget."</p>
+          <p class="principle-body">
+            Response quality degrades over survey length. Questions later in a survey receive less 
+            thoughtful answers even when respondents are still completing it — this isn't dropout, 
+            it's silent quality decay. Complex matrix grids are disproportionately expensive and 
+            accelerate fatigue.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-cog-load">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-cog-load" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Apply Miller's Law: respect the 7±2 cognitive chunks constraint. Avoid matrix grids 
+              — decompose them into individual questions. Use branching logic to eliminate questions 
+              irrelevant to a given respondent. Show a progress indicator. Put your most critical 
+              questions first. Every question you add should earn its place.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="telescoping-effect"
+          data-category="cognitive-memory-effects"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Telescoping Effect</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"Memory compresses time. Recent events feel older; vivid events feel recent."</p>
+          <p class="principle-body">
+            Respondents systematically misplace events in time. Recent mundane events get pushed 
+            further back (forward telescoping); salient or emotional events get pulled closer 
+            (backward telescoping). Any recall-based question — frequency, last occurrence, 
+            duration — is affected.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-telescoping">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-telescoping" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Use bounded, specific recall windows: "in the last 7 days" not "recently". Provide 
+              temporal landmarks to help respondents orient ("since the last update / since 
+              Christmas / since you joined"). Avoid recall windows longer than 30 days for 
+              non-salient routine behaviours — the data will not be reliable.
+            </p>
+          </div>
+        </article>
+
+        <article class="principle-card"
+          data-principle="demand-characteristics"
+          data-category="cognitive-memory-effects"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Demand Characteristics</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"Respondents are detectives trying to figure out what you want."</p>
+          <p class="principle-body">
+            When participants can infer the study's hypothesis or the researcher's desired 
+            outcome, they adjust their answers accordingly — either to please the researcher 
+            or to subvert them. Particularly problematic when the product under evaluation 
+            is obvious, and the survey context signals its origin.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-demand">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-demand" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Obscure the specific hypothesis where ethically and practically possible. Include 
+              decoy questions that signal a broader study scope. Avoid survey titles and 
+              introductory text that signal the desired outcome. Use neutral third-party survey 
+              distribution where brand association is a concern.
+            </p>
+          </div>
+        </article>
+
+        <!-- Peak-End Rule: last card — intentional application of the principle itself -->
+        <article class="principle-card"
+          data-principle="peak-end-rule"
+          data-category="cognitive-memory-effects"
+          data-severity="medium">
+          <div class="card-top">
+            <h3 class="principle-name">Peak-End Rule</h3>
+            <span class="severity-badge medium">Medium impact</span>
+          </div>
+          <p class="principle-maxim">"People remember the worst moment, the best moment, and the last one."</p>
+          <p class="principle-body">
+            Evaluation of an experience is dominated by its emotional peak and its final moment — 
+            not a faithful average. Post-experience surveys therefore capture the <em>memory</em> 
+            of an experience, not the experience itself. The gap matters most for journeys with 
+            high emotional variance.
+          </p>
+          <button class="mitigation-toggle" aria-expanded="false" aria-controls="mit-peak-end">
+            <span class="toggle-icon">+</span> Mitigation
+          </button>
+          <div class="mitigation-panel" id="mit-peak-end" role="region">
+            <p class="mitigation-label">How to reduce it</p>
+            <p class="mitigation-text">
+              Be explicit about the evaluation window you want ("thinking about your experience 
+              this week" vs "overall to date"). For journeys with high emotional variance, 
+              consider in-moment surveys over retrospective ones. Design the end of your survey 
+              deliberately — the final question shapes how the whole interaction is remembered 
+              and rated. This card is last for a reason.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-top">
+      <p class="footer-intro">
+        An open reference for user researchers. Grounded in survey methodology literature and 
+        behavioural psychology. Contributions welcome — raise a pull request.
+      </p>
+      <div class="footer-meta">
+        <a class="footer-link" href="https://github.com/joshm-simril/laws-of-surveys" target="_blank" rel="noopener">GitHub →</a>
+        <span class="footer-version">v0.1 · draft for review</span>
+      </div>
+    </div>
+
+    <div class="footer-attribution">
+      <span class="footer-built-by">
+        Built by <a href="https://www.linkedin.com/in/joshuasmay" target="_blank" rel="noopener" class="attribution-link">Josh May</a>
+        &middot; co-created with Claude
+        &middot; inspired by <a href="https://lawsofux.com" target="_blank" rel="noopener" class="attribution-link">lawsofux.com</a>
+      </span>
+      <span class="footer-privacy">
+        <a href="https://plausible.io/lawsofsurveys.com" target="_blank" rel="noopener" class="attribution-link">Public analytics</a>
+        via <a href="https://plausible.io" target="_blank" rel="noopener" class="attribution-link">Plausible</a> — no cookies, no personal data collected.
+      </span>
+    </div>
+
+    <div class="references-section">
+      <h2 class="references-heading">
+        <span class="mono">Further reading</span>
+      </h2>
+      <p class="references-note">These are the shoulders this stands on. Each is worth time if you want to go deeper.</p>
+
+      <div class="references-grid">
+
+        <div class="reference-group">
+          <h3 class="ref-group-label mono">Foundational texts</h3>
+          <ul class="ref-list">
+            <li class="ref-item">
+              <a class="ref-link" href="https://www.wiley.com/en-gb/The+Psychology+of+Survey+Response-p-9780521576567" target="_blank" rel="noopener">
+                <span class="ref-title">The Psychology of Survey Response</span>
+                <span class="ref-authors">Tourangeau, Rips &amp; Rasinski · Cambridge University Press, 2000</span>
+                <span class="ref-desc">The definitive cognitive model of how respondents comprehend, retrieve, judge, and report answers. The intellectual foundation for most of what's on this page.</span>
+              </a>
+            </li>
+            <li class="ref-item">
+              <a class="ref-link" href="https://www.cambridge.org/core/books/abs/cambridge-handbook-of-research-methods-and-statistics-for-the-social-and-behavioral-sciences/question-and-questionnaire-design/EC913C0C701B356AE4EF7DAB57270BA3" target="_blank" rel="noopener">
+                <span class="ref-title">Question and Questionnaire Design</span>
+                <span class="ref-authors">Krosnick &amp; Presser · Cambridge Handbook of Research Methods, 2024</span>
+                <span class="ref-desc">Comprehensive coverage of open vs. closed questions, scale design, acquiescence, response order, social desirability, and questionnaire length — with synthesised best practices.</span>
+              </a>
+            </li>
+            <li class="ref-item">
+              <a class="ref-link" href="https://www.annualreviews.org/doi/10.1146/annurev.psych.50.1.537" target="_blank" rel="noopener">
+                <span class="ref-title">Survey Research</span>
+                <span class="ref-authors">Krosnick · Annual Review of Psychology, 1999</span>
+                <span class="ref-desc">Influential review paper covering the satisficing model of survey response — essential reading for understanding why response quality degrades over length and complexity.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="reference-group">
+          <h3 class="ref-group-label mono">Practitioner references</h3>
+          <ul class="ref-list">
+            <li class="ref-item">
+              <a class="ref-link" href="https://www.gesis.org/en/services/methods/methods-hub/questionnaire-design/survey-guidelines" target="_blank" rel="noopener">
+                <span class="ref-title">GESIS Survey Guidelines</span>
+                <span class="ref-authors">GESIS – Leibniz Institute for the Social Sciences</span>
+                <span class="ref-desc">The most rigorous free practitioner reference available. Academic in tone but comprehensive — covers acquiescence, social desirability, response order effects, scale design, and more.</span>
+              </a>
+            </li>
+            <li class="ref-item">
+              <a class="ref-link" href="https://pewresearch.org/our-methods/u-s-surveys/writing-survey-questions/" target="_blank" rel="noopener">
+                <span class="ref-title">Writing Survey Questions</span>
+                <span class="ref-authors">Pew Research Center</span>
+                <span class="ref-desc">Pew's methodology team publishes their reasoning publicly. Pragmatic, well-grounded guidance on question wording, response scales, and avoiding common design errors.</span>
+              </a>
+            </li>
+            <li class="ref-item">
+              <a class="ref-link" href="https://growth.design/psychology" target="_blank" rel="noopener">
+                <span class="ref-title">106 Cognitive Biases &amp; Principles</span>
+                <span class="ref-authors">growth.design</span>
+                <span class="ref-desc">Not survey-specific, but the closest thing to a visual, scannable reference for cognitive biases in designed interactions. Covers many biases directly relevant to survey response.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="reference-group">
+          <h3 class="ref-group-label mono">Design inspiration</h3>
+          <ul class="ref-list">
+            <li class="ref-item">
+              <a class="ref-link" href="https://lawsofux.com" target="_blank" rel="noopener">
+                <span class="ref-title">Laws of UX</span>
+                <span class="ref-authors">Jon Yablonski</span>
+                <span class="ref-desc">The direct inspiration for this site — psychological principles made accessible for practitioners. The format, philosophy, and meta-application of its own principles to this page's structure are all borrowed from here.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── JS: filter + toggle ────────────────────────────────── -->
+  <script>
+    // ── Filter logic ──────────────────────────────────────────
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const sections   = document.querySelectorAll('.category-section');
+    const countEl    = document.getElementById('visible-count');
+
+    function updateCount() {
+      const total = document.querySelectorAll('.principle-card:not([data-filtered="true"])').length;
+      countEl.textContent = total === 15 ? '' : `${total} shown`;
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        sections.forEach(section => {
+          if (filter === 'all' || section.dataset.category === filter) {
+            section.dataset.hidden = 'false';
+            section.removeAttribute('data-hidden');
+          } else {
+            section.dataset.hidden = 'true';
+          }
+        });
+
+        updateCount();
+      });
+    });
+
+    // ── Mitigation toggle ─────────────────────────────────────
+    document.querySelectorAll('.mitigation-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const panelId  = btn.getAttribute('aria-controls');
+        const panel    = document.getElementById(panelId);
+
+        btn.setAttribute('aria-expanded', String(!expanded));
+        panel.classList.toggle('open', !expanded);
+      });
+    });
+
+    // Initialise count
+    updateCount();
+  </script>
+
+</body>
+</html>
